@@ -120,12 +120,18 @@ func ExecuteScript(script string) {
             continue
         }
 
-        ExecuteStatement(line, i+1)
+        ExecuteStatement(line, i+1, false) // Pass false for the interactive parameter
     }
 }
 
 // ExecuteStatement function
-func ExecuteStatement(statement string, line int) {
+func ExecuteStatement(statement string, line int, interactive bool) {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("=> undefined")
+        }
+    }()
+
     if strings.HasPrefix(statement, "puts ") {
         message, err := evaluateExpression(strings.TrimPrefix(statement, "puts "), line)
         if err != nil {
@@ -152,13 +158,32 @@ func ExecuteStatement(statement string, line int) {
             panic(CustomError{Message: err.Error(), Line: line})
         }
         variables[varName] = varValue
+        if interactive {
+            fmt.Println("=>", varValue) // Add this line
+        }
     } else if strings.HasPrefix(statement, "fn ") {
         defineFunction(statement, line)
     } else {
-        _, err := evaluateExpression(statement, line)
+        result, err := evaluateExpression(statement, line)
         if err != nil {
             panic(CustomError{Message: err.Error(), Line: line})
         }
+        if interactive {
+            fmt.Println("=>", result) // Add this line
+        }
+    }
+}
+
+func startInteractiveMode() {
+    reader := bufio.NewReader(os.Stdin)
+    for {
+        fmt.Print("> ")
+        input, _ := reader.ReadString('\n')
+        input = strings.TrimSpace(input)
+        if input == "exit" {
+            break
+        }
+        ExecuteStatement(input, 0, true)
     }
 }
 
@@ -202,16 +227,5 @@ func main() {
     ExecuteScript(scriptContent)
 }
 
-func startInteractiveMode() {
-    reader := bufio.NewReader(os.Stdin)
-    for {
-        fmt.Print("> ")
-        input, _ := reader.ReadString('\n')
-        input = strings.TrimSpace(input)
-        if input == "exit" {
-            break
-        }
-        ExecuteStatement(input, 0)
-    }
-}
+
 
