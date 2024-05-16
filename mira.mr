@@ -1,0 +1,205 @@
+=begin
+ ==　で一致しているかどうかを判定する
+ ≧　は　>=　と同じ
+ ≦  は　<=　と同じ
+=end
+
+# 具体例
+
+p 1 == 1 # => true
+p 1 == 2 # => false
+p 3 > 1 # => true
+p 1 > 3 # => false
+p 3 >= 1 # => true 3が1以上か
+p 1 <= 3 # => true 3が3以上か
+p 1 <= 0 # => false 1が0以上か
+
+p "ruby" == "ruby" # => true
+p "ruby" == "python" # => false
+
+#　値が異なっているかを判断するときは != を使う
+p "ruby" != "perl" # => true
+p "ruby" != "ruby" # => false
+str1 = "foo"
+str2 = str1
+str3 = "f" + "o" + "o"
+p str1.equal?(str2) # => true
+p str1.equal?(str3) # => false
+
+# Rubyのequal?メソッドは、2つのオブジェクトが同一のオブジェクトであるかどうかをチェックします。つまり、それらがメモリ上の同じ場所を指しているかどうかを確認します。equal?メソッドは、以下のような場合にtrueを返します。
+
+# ==メソッドとequal?メソッドの違い
+aqa1 = "foo"
+aqa2 = "f" + "o" + "o"
+p aqa1 == aqa2 # => true #中の文字列が同じなのでtrue equal?メゾットだとfalseになる
+
+# eql?メゾット
+p 1.0 == 1 # => true
+p 1.0.eql?(1) # => false #数字の時は==と違う動きをする
+
+#　ハッシュ内部ではeql?メゾットが使われるから
+hash = {0=>"zero"}
+p hash[0.0] # => nil
+p hash[0] # => "zero"
+
+=begin
+
+Rubyでは、ハッシュを定義する際に:（コロン）を使用することができますが、それはシンボルをキーとするハッシュに限定されます。シンボルは:に続く名前で表され、一意のオブジェクトを表します。
+
+以下に、シンボルをキーとするハッシュの例を示します。
+
+しかし、あなたのコードでは、キーとして整数0を使用しています。整数や文字列など、シンボル以外のキーを使用する場合は、=>（ロケット演算子）を使用してキーと値を関連付ける必要があります。
+
+したがって、あなたのコードは以下のようになります。
+
+このコードでは、ハッシュhashのキー0に対する値として"zero"が設定されています。
+
+=end
+#西暦からrubyの年齢を返す
+ad = ARGV[0].to_i
+age = ad - 1993
+puts age
+# rubystudy> ruby ad2age.rb 2024
+# 31
+
+#条件と真偽値
+p "".empty? #true
+p "AAA".empty? #false
+#文字列がゼロの時にtrueを返す
+
+p /Ruby/ =~ "Ruby"  #=>0
+p /Ruby/ =~ "Diamond" #=>nil
+#マッチした位置を返す　マッチしなかったらnilを返す
+
+# ちなみにrubyだとnillとfalse以外は全部真になる
+
+# && || !の論理演算子
+=begin
+例文
+age = 20
+age > 22 && age < 30 #false
+age > 2 age < 30 #true
+
+age > 22 || age < 30 #true
+age > 30 || age <1 #false
+
+=end
+
+# !条件で条件を反転する
+#例文
+# !使わないとき
+age = 25
+if age > 20 && age < 29 #false
+  puts "20代"
+end
+# !使うとき
+if !(age > 20 && age < 29)
+  puts "20代以外"
+end
+names = ["小林", "林", "高野", "森岡"]
+#一番最初のは0番目ってことに注意
+# names[0]でこの場合"小林"が取得できる
+print "最初の名前は", names[0], "です\n"
+
+names[0] = "野尻"
+print "最初の名前は", names[0], "です\n"
+
+#決まってない場合
+#names = []
+
+num = [1, 2, 3, 4]
+
+mixed = [1, "歌", 3, "ruby"]
+
+#　みたいにごちゃまぜでもok
+
+# arrayのsizeメゾットを使うと配列の大きさを取得できる
+puts names.size
+
+#eachメゾットを使うと配列の要素を一つずつ取り出すことができる
+names.each do |name|
+  puts name
+end
+#ここでnames配列の中の要素を一つずつnameに代入してそれをputsで表示している
+array = ["a", 1, nil]
+array.each do |item|
+  case item
+  when String #文字列の場合
+    puts "item is a String."
+  when Numeric #数字の場合
+    puts "item is a Numeric."
+  else #それ以外の場合
+    puts "item is something."
+  end
+end
+text.each_line do |line|
+  case line
+  when /^From:/i
+    puts "送信者の情報が見つかりました"
+  when /^To:/i
+    puts "宛先の情報が見つかりました"
+  when /^Subject:/i
+    puts "件名の情報が見つかりました"
+  else
+    # nothing to do
+  end
+end
+tags = ["A", "IMG", "PRE"]
+tags.each do |tagname|
+  case tagname
+  when "P", "A", "I", "B", "BLOCKQUOTE"
+    puts "#{tagname} has child."
+  when "IMG", "BR"
+    puts "#{tagname} has no child."
+  else
+    puts "#{tagname} cannot be used."
+  end
+end
+
+# whenには複数の値を指定することができる　どれか一つでも一致すればwhenの中の処理が実行される
+puts "最初の因数: #{ARGV[0]}"
+puts "2番目の因数: #{ARGV[1]}"
+puts "3番目の因数: #{ARGV[2]}"
+puts "4番目の因数: #{ARGV[3]}"
+puts "5番目の因数: #{ARGV[4]}"
+
+# \rubystudy> ruby command.rb 1st 2nd 3rd 4th 5th
+# 最初の因数: 1st
+# 2番目の因数: 2nd
+# 3番目の因数: 3rd
+# 4番目の因数: 4th
+# 5番目の因数: 5th
+
+name = ARGV[0]
+puts "Happy Birthday, #{name}"
+#これでコマンドラインから名前を入力して、その名前を使ってHappy Birthdayと表示することができる
+
+#　文字で因数は取得されてるから数字にするときはto_iを使う
+
+num0 = ARGV[0].to_i
+num1 = ARGV[1].to_i
+puts "#{num0} + #{num1} = #{num0 + num1}" # これでコマンドラインから数字を入力して足し算ができる 右側で計算してる
+puts "#{num0} - #{num1} = #{num0 - num1}"
+puts "#{num0} * #{num1} = #{num0 * num1}"
+puts "#{num0} / #{num1} = #{num0 / num1}"  #Rubyでは、/は除算演算子として使用されます。2つの数値を除算するために使用されます。例えば、10 / 2は5を返します。
+puts "#{num0} % #{num1} = #{num0 % num1}"  #%は剰余演算子として使用されます。2つの数値の剰余を計算するために使用されます。例えば、10 % 2は0を返します。
+require "date"
+
+days = Date.today - Date.new(1993, 2, 24)
+puts (days.to_i)
+
+# Date.todayで今日の日付を取得して、Date.new(1993, 2, 24)で1993年2月24日を取得して、その差を計算している
+names = ["Bo", "Moe", "Joe"]
+for name in names
+  puts name
+end
+# each doみたいなかんじで使える
+# eachだと
+ names.each do |name|
+  puts name
+ end
+ sum = 0
+ for i in 1..5 #1から5までの範囲を指定
+   sum += i #sumにiを加算
+ end
+ puts sum #sumを表示

@@ -1,0 +1,9 @@
+puts "Hello, world!"
+print "Hello, world!"
+print "x\ntwitter"
+p "Hello, world!"
+x = 10
+puts x
+x = 2
+puts x
+puts "#{x}歳"
