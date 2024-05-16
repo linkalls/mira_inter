@@ -6,4 +6,5 @@ x = 10
 puts x
 x = 2
 puts x
+puts 1 + 1
 puts "#{x}歳"
